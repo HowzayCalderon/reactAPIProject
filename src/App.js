@@ -1,23 +1,49 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [characters, setCharacters] = useState([])
+  const [character, setCharacter] = useState({})
+  // state for hiding information in accordion
+  const [display, setDisplay] = useState(false)
+  
+  function apiCall(){
+    fetch('https://rickandmortyapi.com/api/character')
+    .then(res => res.json())
+    .then(data => setCharacters(data.results))
+  }
+
+  useEffect(() => {
+    apiCall()
+  },[])
+
+  function toggle(){
+    setDisplay(prev => !prev)
+  }
+  function handleClick(charInfo){
+    setCharacter(charInfo)
+    toggle()
+  }
+
+
+  console.log(characters)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+      {characters.length && characters.map((character, index) =>(
+        <div>
+          <div className='banner'>
+            <h2>{character.name}<button onClick={()=> handleClick(character)} key={index}>ˇ</button></h2>
+          </div>
+          {display?<div className='xtraInfo'>
+            <img src={character.image}/>
+            <p>Status: {character.status} <br/> Origin: {character.origin.name} <br/> Species: {character.species} <br/>Gender: {character.gender} </p>
+          </div>: null}  
+        </div>
+        
+    ))}
+      </div>
     </div>
   );
 }
