@@ -10,12 +10,7 @@ h2{
   font-family: 'Courier New', Courier, monospace;
   cursor: pointer;
 }
-/* button{
-  background-color: teal;
-  color: greenyellow;
-  border: none;
-  cursor: pointer;
-} */
+
 
 .App{
   margin-top: 190px;
